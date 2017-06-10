@@ -1,0 +1,10 @@
+2017-06-10  Dirk Eddelbuettel  <edd@debian.org>
+
+	* rxarray.hpp (xt): If no 'dim' attribute exists, set it
+
+	* .editorconfig: Added
+
+2017-06-09  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/include/xtensor: Copied from github.com/QuantStack/xtensor
+	* inst/include/xtensor-r: Copied from github.com/QuantStack/xtensor-r

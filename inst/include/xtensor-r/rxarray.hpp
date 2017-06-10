@@ -53,7 +53,7 @@ namespace xt
     {
 
     public:
-        
+
         using self_type = rxarray<T>;
         using base_type = xcontainer<self_type>;
         using semantic_base = xcontainer_semantic<rxarray<T>>;
@@ -138,6 +138,11 @@ namespace xt
     rxarray<T>::rxarray(SEXP exp, bool owned)
         : m_sexp(exp), m_owned(owned)
     {
+        // if dims attributes does not exist, set it to length of object
+        if (Rf_isNull(Rf_getAttrib(m_sexp, R_DimSymbol))) {
+            Rcpp::IntegerVector d = Rcpp::IntegerVector::create(Rf_length(m_sexp));
+            Rf_setAttrib(m_sexp, R_DimSymbol, d);
+        }
         m_shape = inner_shape_type(Rf_getAttrib(m_sexp, R_DimSymbol));
 
         resize_container(m_strides, base_type::dimension());
@@ -146,7 +151,7 @@ namespace xt
         xt::compute_strides(m_shape, layout(), m_strides, m_backstrides);
 
         std::size_t sz = compute_size(m_shape);
-        m_data = container_type(internal::r_vector_start<SXP>(exp), sz);
+        m_data = container_type(internal::r_vector_start<SXP>(m_sexp), sz);
     }
 
     template <class T>
@@ -227,7 +232,7 @@ namespace xt
     {
         self_type tmp(shape);
         *static_cast<self_type*>(this) = std::move(tmp);
-    }        
+    }
 
     template <class T>
     inline layout_type rxarray<T>::layout() const
