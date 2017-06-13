@@ -1,3 +1,7 @@
+2017-06-13  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .travis.yml: Add Travis CI support via run.sh from r-travis
+
 2017-06-10  Dirk Eddelbuettel  <edd@debian.org>
 
 	* rxarray.hpp (xt): If no 'dim' attribute exists, set it
